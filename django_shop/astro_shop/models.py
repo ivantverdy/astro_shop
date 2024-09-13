@@ -1,5 +1,4 @@
 from django.db import models
-import datetime
 
 
 # categories
@@ -16,7 +15,7 @@ class Product(models.Model):
     description = models.TextField(max_length=256, default='', blank=True, null=True)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
-    image = models.ImageField(upload_to='/products/')
+    image = models.ImageField(upload_to='products/')
 
     def __str__(self):
         return self.name
