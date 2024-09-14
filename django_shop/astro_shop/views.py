@@ -23,11 +23,10 @@ def login_user(request):
             messages.success(request, 'You are now logged in!')
             return redirect('home')
         else:
-
+            messages.success(request, 'There was an error logging in!')
+            return redirect('login')
     else:
-
-
-    return render(request, 'login.html', {})
+        return render(request, 'login.html', {})
 
 
 def logout_user(request):
