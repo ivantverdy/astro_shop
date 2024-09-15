@@ -50,4 +50,4 @@ def register_user(request):
         else:
             messages.success(request, 'There was an error registering your account!')
     else:
-        return render(request, 'register.html', {'form': form})
+        return render(request, 'signup.html', {'form': form})
