@@ -11,22 +11,20 @@
 </header>
 <div class="container">
     <div class="row">
-        <div style="text-align: center;">
+        <br/><br/>
+        <div class="col-md-6 offset-md-3">
             <br/><br/>
-            <div class="col-md-6 offset-md-3">
+            <form method="post" action="{% url 'register' %}">
 
-                <form method="post" action="{% url 'login' %}">
-                    {% csrf_token %}
+                {% csrf_token %}
+                {{ form.as_p }}
 
-                </form>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-            </div>
+                <button type="submit" class="btn btn-secondary">
+                    Register
+                </button>
+            </form>
+
+            <br/><br/>
         </div>
     </div>
 </div>
