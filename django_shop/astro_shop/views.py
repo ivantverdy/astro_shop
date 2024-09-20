@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, LoginForm
 
+
 def home(request):
     products = Product.objects.all()
     return render(request, 'home.html', {'products': products})
@@ -14,22 +15,25 @@ def about(request):
 
 
 def login_user(request):
-    form = LoginForm()
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = LoginForm(data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
-            form.confirm_login_allowed(user)
-            login(request, user)
-            messages.success(request, 'You are now logged in!')
-            return redirect('home')
+
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'You are now logged in!')
+                return redirect('home')
+            else:
+                messages.success(request, 'Invalid username or password')
+                return redirect('login')
         else:
             messages.success(request, 'There was an error logging in!')
-            return redirect('login')
     else:
-        return render(request, 'login.html', {'form': form})
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
 
 def logout_user(request):
@@ -39,7 +43,6 @@ def logout_user(request):
 
 
 def register_user(request):
-    form = SignUpForm()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -53,4 +56,5 @@ def register_user(request):
         else:
             messages.success(request, 'There was an error registering your account!')
     else:
-        return render(request, 'signup.html', {'form': form})
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
