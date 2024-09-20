@@ -89,3 +89,4 @@ local_settings.py
 django_shop/db.sqlite3
 .idea
 venv/
+django_shop/media
