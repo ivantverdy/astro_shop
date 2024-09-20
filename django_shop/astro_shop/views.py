@@ -58,3 +58,8 @@ def register_user(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+
+def single_product(request, product_id):
+    product = Product.objects.get(id=product_id)
+    return render(request, 'product.html', {'product': product})
