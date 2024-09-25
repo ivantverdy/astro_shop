@@ -23,8 +23,13 @@
                         {{ product.name }}
                     </h4>
 
-                    <div class="mb-3">
-                        <span class="h5">${{ product.price }}</span>
+                    <div class="mb-3 h5">
+                        {% if product.for_sale %}
+                        <span style="text-decoration: line-through;">${{ product.price }}</span>
+                            ${{ product.current_price }}
+                        {% else %}
+                            ${{ product.price }}
+                        {% endif %}
                     </div>
 
                     <p>
