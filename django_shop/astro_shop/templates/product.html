@@ -23,25 +23,25 @@
                         {{ product.name }}
                     </h4>
 
-                    <div class="mb-3 h5">
-                        {% if product.for_sale %}
-                        <span style="text-decoration: line-through;">${{ product.price }}</span>
-                            ${{ product.current_price }}
-                        {% else %}
-                            ${{ product.price }}
-                        {% endif %}
-                    </div>
-
-                    <p>
-                        {{ product.description }}
-                    </p>
-
                     <div class="row">
+                        <dt class="col-3">Price:</dt>
+                        <dd class="col-9">
+                            {% if product.for_sale %}
+                            <span style="text-decoration: line-through;">${{ product.price }}</span>
+                            ${{ product.current_price }}
+                            {% else %}
+                            ${{ product.price }}
+                            {% endif %}
+                        </dd>
+
                         <dt class="col-3">Type:</dt>
                         <dd class="col-9">Digital</dd>
 
                         <dt class="col-3">Resolution:</dt>
                         <dd class="col-9">%max%</dd>
+
+                        <dt class="col-3">Description:</dt>
+                        <dd class="col-9">{{ product.description }}</dd>
                     </div>
 
                     <hr/>
