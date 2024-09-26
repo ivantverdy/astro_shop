@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'astro_shop',
+    'shopping_cart',
 ]
 
 MIDDLEWARE = [
