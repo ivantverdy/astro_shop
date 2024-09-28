@@ -11,4 +11,14 @@ class Cart(object):
             session_data = self.session['session_key'] = {}
 
         # make cart available on each page of site
-        self.session_data = session_data
+        self.cart = session_data
+
+    def add(self, product):
+        product_id = str(product.id)
+
+        if product_id in self.cart:
+            pass
+        else:
+            self.cart[product_id] = {'price': str(product.price)}
+
+        self.session.modified = True

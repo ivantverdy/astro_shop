@@ -44,8 +44,11 @@
 
                     <hr/>
 
-                    <button href="#" value="{{ product.id }}" id="add_cart" class="btn btn-primary shadow-0">Add to cart</button>
-                    <button href="#" value="{{ product.id }}" id="buy_now" class="btn btn-secondary shadow-0">Buy now</button>
+                    <button href="#" value="{{ product.id }}" id="add_cart" class="btn btn-primary shadow-0">Add to
+                        cart
+                    </button>
+                    <button href="#" value="{{ product.id }}" id="buy_now" class="btn btn-secondary shadow-0">Buy now
+                    </button>
 
 
                 </div>
@@ -53,5 +56,26 @@
         </div>
     </div>
 </section>
+
+<script>
+    $(document).on('click', '#add_cart', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'add' %}',
+            data: {
+                product_id: $('#add_cart').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function (json) {
+                console.log(json)
+            },
+            error: function (e) {
+                console.log(e, e.stack)
+            }
+        });
+    })
+</script>
 
 {% endblock %}
