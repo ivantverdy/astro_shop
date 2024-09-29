@@ -69,9 +69,11 @@
                 action: 'post'
             },
             success: function (json) {
-                console.log(json)
+                //console.log(json)
                 // updating cart quantity after adding, -> user doesn't need to reload the page to see updated quantity
                 document.getElementById('cart_quantity').textContent = json.cart_qty
+
+
             },
             error: function (e) {
                 console.log(e, e.stack)

@@ -22,7 +22,7 @@ def cart_add(request):
         cart_quantity = cart.__len__()
         # return response
         #response = JsonResponse({'product name: ': product.name})
-        response = JsonResponse({'cart_qty: ': cart_quantity})
+        response = JsonResponse({'cart_qty': cart_quantity})
         return response
 
 
