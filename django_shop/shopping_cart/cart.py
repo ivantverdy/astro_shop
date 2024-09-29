@@ -1,3 +1,6 @@
+from astro_shop.models import Product
+
+
 # sessions
 class Cart(object):
     def __init__(self, request):
@@ -25,3 +28,11 @@ class Cart(object):
 
     def __len__(self):
         return len(self.cart)
+
+    def get_product(self):
+        # keys are ids, cause we have key = id in our cart
+        product_ids = self.cart.keys()
+        # find in database
+        products = Product.objects.filter(id__in=product_ids)
+
+        return products
