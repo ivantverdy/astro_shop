@@ -9,16 +9,20 @@ def cart_home(request):
 
 
 def cart_add(request):
+    # this step does not create a new cart from scratch but instead retrieves the existing cart from the session
     cart = Cart(request)
     if request.POST.get('action') == 'post':  # in js action = lowercase post
-        # get from button id of product
+        # get a product from button id of product
         product_id = request.POST.get('product_id')
         # look for product in db
         product = get_object_or_404(Product, pk=product_id)
         # save
         cart.add(product=product)
+
+        cart_quantity = cart.__len__()
         # return response
-        response = JsonResponse({'product name: ': product.name})
+        #response = JsonResponse({'product name: ': product.name})
+        response = JsonResponse({'cart_qty: ': cart_quantity})
         return response
 
 

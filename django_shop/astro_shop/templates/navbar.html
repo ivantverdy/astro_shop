@@ -35,7 +35,9 @@
                 <a class="btn btn-outline-dark" type="submit" href="{% url 'cart' %}">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">
+<!--                        Here cart __len__ is displayed every time user refreshes page or enters it -->
+                        {{ cart|length }}</span>
                 </a>
             </form>
         </div>
