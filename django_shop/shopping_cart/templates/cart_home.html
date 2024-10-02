@@ -9,6 +9,41 @@
         </div>
     </div>
 </header>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-9">
+            {% for product in cart_products %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">Price: ${{ product.price }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button class="btn btn-outline-danger">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-3">
+            <!-- Cart summary -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Summary</h5>
+                    <p class="card-text">Items: {{ cart|length }}</p>
+                    <p class="card-text">Subtotal: ${{ subtotal }}</p>
+<!--                    <a href="{ url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

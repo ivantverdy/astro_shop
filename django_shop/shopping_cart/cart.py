@@ -29,7 +29,7 @@ class Cart(object):
     def __len__(self):
         return len(self.cart)
 
-    def get_product(self):
+    def get_products(self):
         # keys are ids, cause we have key = id in our cart
         product_ids = self.cart.keys()
         # find in database
