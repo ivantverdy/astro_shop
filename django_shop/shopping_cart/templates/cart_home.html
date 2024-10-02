@@ -10,6 +10,7 @@
     </div>
 </header>
 <div class="container py-5">
+    {% if cart_products %}
     <div class="row">
         <div class="col-lg-9">
             {% for product in cart_products %}
@@ -21,7 +22,14 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">Price: ${{ product.price }}</p>
+                            <p class="card-text">
+                                {% if product.for_sale %}
+                                <span style="text-decoration: line-through;">${{ product.price }}</span>
+                                Price: ${{ product.current_price }}
+                                {% else %}
+                                Price: ${{ product.price }}
+                                {% endif %}
+                            </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <button class="btn btn-outline-danger">Remove</button>
                             </div>
@@ -33,15 +41,20 @@
         </div>
         <div class="col-lg-3">
             <!-- Cart summary -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Summary</h5>
-                    <p class="card-text">Items: {{ cart|length }}</p>
-                    <p class="card-text">Subtotal: ${{ subtotal }}</p>
-<!--                    <a href="{ url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>-->
+
+        </div>
+        {% else %}
+        <div class="container my-3" style="min-height: calc(100vh - 436px);">
+            <div class="row">
+                <div class="text-center">
+                    <h3><strong>Your Cart is Empty</strong></h3>
+                    <h4>Add something to make me happy :)</h4>
+                    <a href="{% url 'home' %}" class="btn btn-primary cart-btn-transform m-3">Continue To Shopping</a>
                 </div>
             </div>
         </div>
+
+        {% endif %}
     </div>
 </div>
 

@@ -9,24 +9,16 @@
         </div>
     </div>
 </header>
-<div class="container">
+<div class="container my-5" style="min-height: calc(100vh - 436px);">
     <div class="row">
             <div class="col-md-6 offset-md-3">
-                <br/><br/>
                 <form method="POST" action="{% url 'login' %}">
-
+<!--                    <strong>Please proceed to log in</strong>-->
                     {% csrf_token %}
                     {{ form.as_p }}
 
                     <div style="text-align: center;"><button type="submit" class="btn btn-secondary">Login</button></div>
                 </form>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
-                <br/><br/>
             </div>
     </div>
 </div>
