@@ -16,13 +16,13 @@ class Cart(object):
         # make cart available on each page of site
         self.cart = session_data
 
-    def add(self, product):
+    def add(self, product, quantity=1):
         product_id = str(product.id)
 
         if product_id in self.cart:
-            pass
+            pass  # self.cart[product_id] += quantity
         else:
-            self.cart[product_id] = {'price': str(product.price)}
+            self.cart[product_id] = quantity  # adding product id with desired quantity
 
         self.session.modified = True
 
@@ -36,3 +36,22 @@ class Cart(object):
         products = Product.objects.filter(id__in=product_ids)
 
         return products
+
+    def update(self, product, quantity):
+        product_id = str(product.id)
+
+        if product_id in self.cart:
+            self.cart[product_id] = quantity
+
+        self.session.modified = True
+
+    def delete(self, product):
+        product_id = str(product.id)
+
+        if product_id in self.cart:
+            del self.cart[product_id]
+            self.session.modified = True
+
+    def get_total(self):
+        products = self.get_products()
+        return sum([product.price * self.cart[products.id] for product in products])
