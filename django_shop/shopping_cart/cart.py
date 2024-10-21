@@ -20,7 +20,7 @@ class Cart(object):
         product_id = str(product.id)
 
         if product_id in self.cart:
-            pass  # self.cart[product_id] += quantity
+            self.cart[product_id] += quantity
         else:
             self.cart[product_id] = quantity  # adding product id with desired quantity
 
@@ -29,11 +29,13 @@ class Cart(object):
     def __len__(self):
         return len(self.cart)
 
-    def get_products(self):
-        # keys are ids, cause we have key = id in our cart
+    def get_products_with_quantities(self):
         product_ids = self.cart.keys()
-        # find in database
         products = Product.objects.filter(id__in=product_ids)
+
+        # Add quantities to the products
+        for product in products:
+            product.cart_quantity = self.cart[str(product.id)]
 
         return products
 
@@ -53,5 +55,5 @@ class Cart(object):
             self.session.modified = True
 
     def get_total(self):
-        products = self.get_products()
-        return sum([product.price * self.cart[products.id] for product in products])
+        products = self.get_products_with_quantities()
+        return sum([product.price * int(self.cart[str(product.id)]) for product in products])

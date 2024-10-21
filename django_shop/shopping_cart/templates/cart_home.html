@@ -30,8 +30,22 @@
                                 Price: ${{ product.price }}
                                 {% endif %}
                             </p>
+
+                            <div class="col-md-2">
+                                <select class="form-select product-qty" id="select-{{ product.id }}">
+                                    {% for i in quantity_range %}
+                                    <option value="{{ i }}" {% if product.cart_quantity == i %}selected{% endif %}>
+                                        {{ i }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <hr>
                             <div class="d-flex justify-content-between align-items-center">
-                                <button class="btn btn-outline-danger">Remove</button>
+                                <button class="btn btn-outline-danger remove-item" id="remove-{{ product.id }}">
+                                    Remove
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -44,8 +58,10 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Summary</h5>
+                    <p class="card-summary">Total: $<span class="total-amount">{{ total }}</span></p>
                 </div>
             </div>
+
         </div>
         {% else %}
         <div class="container my-3" style="min-height: calc(100vh - 436px);">
@@ -62,5 +78,54 @@
     </div>
 </div>
 
+<script>
+    document.querySelectorAll('.product-qty').forEach(select => {
+    select.addEventListener('change', function () {
+        const productId = this.id.replace('select-', '');
+        const quantity = this.value;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "update" %}',
+            data: {
+                product_id: productId,
+                quantity: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+            },
+            success: function (response) {
+                // Correctly update total price without refreshing the page
+                document.querySelector('.total-amount').textContent = `${response.total}`;
+            },
+            error: function (error) {
+                console.error("Error updating quantity:", error);
+            }
+        });
+    });
+});
+
+
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', function () {
+            const productId = this.id.replace('remove-', '')
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "delete" %}',
+                data: {
+                    product_id: productId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post',
+                },
+                success: function () {
+                    location.reload();  // Reload to reflect the removed item
+                },
+                error: function (error) {
+                    console.error("Error removing item:", error);
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

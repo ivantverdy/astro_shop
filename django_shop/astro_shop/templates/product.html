@@ -62,7 +62,7 @@
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '{% url 'add' %}',
+            url: '{% url "add" %}',
             data: {
                 product_id: $('#add_cart').val(),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -76,7 +76,7 @@
 
             },
             error: function (e) {
-                console.log(e, e.stack)
+                console.error("Error updating quantity:", e);
             }
         });
     })
