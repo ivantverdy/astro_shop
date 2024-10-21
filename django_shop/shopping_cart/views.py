@@ -43,6 +43,10 @@ def cart_delete(request):
         product = get_object_or_404(Product, pk=product_id)
 
         cart.delete(product=product)
+        total = cart.get_total()
+        cart_quantity = cart.__len__()
+
+        return JsonResponse({'total': total, 'cart_qty': cart_quantity})
 
 
 def cart_update(request):
