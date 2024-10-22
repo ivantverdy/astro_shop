@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm, UserProfileUpdateForm
+from django.contrib.auth.models import User
 
 
 def home(request):
@@ -12,6 +13,21 @@ def home(request):
 
 def about(request):
     return render(request, 'about.html', {})
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(pk=request.user.id)
+        form = UserProfileUpdateForm(request.POST or None, instance=current_user)
+        if form.is_valid():
+            form.save()
+            login(request, current_user)
+            messages.success(request, 'Your account has been updated!')
+            return redirect('home')
+        return render(request, 'update_user.html', {'form': form})
+    else:
+        messages.success(request, 'You are not logged in!')
+        return redirect('home')
 
 
 def login_user(request):
