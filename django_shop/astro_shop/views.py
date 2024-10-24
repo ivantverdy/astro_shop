@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, LoginForm, UserProfileUpdateForm
+from .forms import SignUpForm, LoginForm, UserProfileUpdateForm, ChangePasswordForm
 from django.contrib.auth.models import User
 
 
@@ -24,10 +24,36 @@ def update_user(request):
             login(request, current_user)
             messages.success(request, 'Your account has been updated!')
             return redirect('home')
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
         return render(request, 'update_user.html', {'form': form})
     else:
         messages.success(request, 'You are not logged in!')
         return redirect('home')
+
+
+def change_password(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        if request.method == 'POST':
+            form = ChangePasswordForm(current_user, request.POST)
+            if form.is_valid():
+                form.save()
+                login(request, current_user)
+                messages.success(request, 'Your password has been updated!')
+                return redirect('update_user')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)
+                return redirect('change_password')
+        else:
+            form = ChangePasswordForm(current_user)
+            return render(request, 'change_password.html', {'form': form})
+    else:
+        messages.success(request, 'You must be logged in to view that page!')
+        return redirect('home')
+
 
 
 def login_user(request):
